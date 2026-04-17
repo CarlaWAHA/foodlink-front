@@ -1,0 +1,46 @@
+<div class="container">
+  <div class="top-bar">
+    <h1>Récapitulatif de ma commande</h1>
+    <button (click)="logout()">Déconnexion</button>
+  </div>
+
+  <div *ngIf="loading">Chargement...</div>
+
+  <div *ngIf="errorMessage" class="error">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="order">
+    <div class="card">
+      <p><strong>Commande n° :</strong> {{ order.id }}</p>
+      <p><strong>État :</strong> {{ getStatusLabel(order.status) }}</p>
+    </div>
+
+    <div class="card">
+      <h2>Articles commandés</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Prix unitaire</th>
+            <th>Quantité</th>
+            <th>Sous-total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of order.items">
+            <td>{{ item.name }}</td>
+            <td>{{ item.price | number:'1.2-2' }} €</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.price * item.quantity | number:'1.2-2' }} €</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="total">
+        <strong>Total :</strong> {{ getTotal() | number:'1.2-2' }} €
+      </p>
+    </div>
+  </div>
+</div>
